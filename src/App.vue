@@ -9,7 +9,7 @@
       </v-app-bar>
       <v-app-bar
         app
-        style="margin-top: 25px"
+        style="margin-top: 25px; padding-bottom: 10px"
         height="66px"
         color="deep-orange darken-1"
         flat
@@ -22,24 +22,30 @@
             solo
             background-color="white"
             label="Search in Daraz"
-            :rules="rules"
             filled
             class="font-weight-lighter; rounded-xl"
             hide-details
             dense
-            style="margin-left: 20px; margin-bottom: 10px; width: 415px"
+            style="margin-left: 20px; width: 415px"
           ></v-text-field>
-          <v-spacer></v-spacer>
           <v-btn
             v-if="$route.path != '/login'"
-            width="100"
-            height=""
+            text
+            height="36px"
             class="ma-2 white--text font-weight-bold text-body-2"
             small
-            color="blue"
+            color="white"
             @click="login"
-            >LOGIN</v-btn
           >
+            <v-icon color="white">mdi-account-outline</v-icon>
+            Login
+          </v-btn>
+
+          <v-divider vertical color="white" class="my-5"></v-divider>
+
+          <v-btn text class="ml-2" @click="openCart">
+            <v-icon color="white"> mdi-cart-outline </v-icon>
+          </v-btn>
         </div>
       </v-app-bar>
     </div>
@@ -59,6 +65,9 @@ export default {
   methods: {
     login() {
       this.$router.push("/login");
+    },
+    openCart() {
+      this.$router.push("/cart");
     },
   },
 };
