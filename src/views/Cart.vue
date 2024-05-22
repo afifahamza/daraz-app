@@ -1,68 +1,97 @@
 <template>
-  <div class="d-flex align-center justify-center">
-    <v-card
-      v-for="(product, index) in products"
-      :key="index"
-      width="250px"
-      class="ma-2"
-    >
-      <v-card-title>{{ product.name }}</v-card-title>
-      <v-card-text>
-        <v-img :src="product.image" height="200" width=""></v-img>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
-          class="ml-auto"
-          style="margin-right: 8px"
-          color="red"
-          small
-          outlined
-          @click="deleteCart(index)"
-        >
-          <v-icon size="20">mdi-trash-can</v-icon>
-        </v-btn>
-      </v-card-actions>
-      <div class="d-flex">
-        <div class="ml-5 mb-3">
-          {{ product.count }}
-        </div>
-        <v-btn
-          x-small
-          text
-          style="margin-top: 4px"
-          class="ml-auto"
-          @click="plusCount(index)"
-        >
-          <v-icon small>mdi-plus</v-icon>
-        </v-btn>
-        <v-btn
-          x-small
-          text
-          style="margin-top: 4px"
-          class="mr-2"
-          @click="minusCount(index)"
-        >
-          <v-icon small>mdi-minus</v-icon>
-        </v-btn>
-      </div>
-    </v-card>
-    <v-dialog v-model="dialog" width="700">
-      <template v-slot:activator="{ on }">
-        <v-btn color="deep-orange darken-1" class="white--text" v-on="on">
-          Add Products
-        </v-btn>
-      </template>
+  <div>
+    <div class="mt-2 d-flex justify-end mr-3">
+      <v-dialog v-model="dialog" width="700">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="deep-orange darken-1"
+            class="white--text right-aligned-button"
+            v-on="on"
+          >
+            Add Product
+          </v-btn>
+        </template>
 
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2"> Products </v-card-title>
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2"> Products </v-card-title>
+          <v-select
+            class="mx-5"
+            :items="['Pen', 'mug', 'TV', 'perfume']"
+            label="Product*"
+            required
+            v-model="productToCreateName"
+          ></v-select>
+          <v-select
+            class="mx-5"
+            :items="[1, 2, 3, 4]"
+            label="Count*"
+            required
+            v-model="productToCreateCount"
+          ></v-select>
 
+          <v-card-actions>
+            <v-btn
+              color="deep-orange darken-1"
+              text
+              @click="
+                dialog = false;
+                addToCart();
+              "
+            >
+              Add to Cart
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <div class="d-flex align-center justify-center">
+      <v-card
+        v-for="(product, index) in products"
+        :key="index"
+        width="250px"
+        class="ma-2"
+      >
+        <v-card-title>{{ product.name }}</v-card-title>
+        <v-card-text>
+          <v-img :src="product.image" height="200" width=""></v-img>
+        </v-card-text>
         <v-card-actions>
-          <v-btn color="deep-orange darken-1" text @click="dialog = false">
-            Add to Cart
+          <v-btn
+            class="ml-auto"
+            style="margin-right: 8px"
+            color="red"
+            small
+            outlined
+            @click="deleteCart(index)"
+          >
+            <v-icon size="20">mdi-trash-can</v-icon>
           </v-btn>
         </v-card-actions>
+        <div class="d-flex">
+          <div class="ml-5 mb-3">
+            {{ product.count }}
+          </div>
+          <v-btn
+            x-small
+            text
+            style="margin-top: 4px"
+            class="ml-auto"
+            @click="plusCount(index)"
+          >
+            <v-icon small>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn
+            x-small
+            text
+            style="margin-top: 4px"
+            class="mr-2"
+            @click="minusCount(index)"
+          >
+            <v-icon small>mdi-minus</v-icon>
+          </v-btn>
+        </div>
       </v-card>
-    </v-dialog>
+    </div>
   </div>
 </template>
 
@@ -70,6 +99,9 @@
 export default {
   data() {
     return {
+      productToCreateName: "",
+      productToCreateCount: "",
+
       dialog: false,
       products: [
         {
@@ -156,6 +188,17 @@ export default {
     },
     totalCount(index) {
       this.products[index].count;
+    },
+    addToCart() {
+      let newProductToAdd = {
+        name: this.productToCreateName,
+        count: this.productToCreateCount,
+      };
+
+      if (this.productToCreateName == "Pen") {
+        newProductToAdd.image = require("../assets/pen.jpg");
+      }
+      this.products = [...this.products, newProductToAdd];
     },
   },
 };

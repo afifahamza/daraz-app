@@ -15,7 +15,11 @@
         flat
       >
         <div class="d-flex align-center w-100">
-          <img class="darazlogo" src="./assets/darazlogo.png" />
+          <img
+            class="darazlogo"
+            src="./assets/darazlogo.png"
+            @click="homePage()"
+          />
 
           <!-- <div class="text-h6">Daraz</div> -->
           <v-text-field
@@ -49,6 +53,7 @@
         </div>
       </v-app-bar>
     </div>
+
     <v-main>
       <router-view />
     </v-main>
@@ -65,6 +70,9 @@ export default {
   methods: {
     login() {
       this.$router.push("/login");
+    },
+    homePage() {
+      this.$router.push("/");
     },
     openCart() {
       this.$router.push("/cart");
